@@ -7,18 +7,347 @@
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 	<link rel="stylesheet" href="shower/themes/ribbon/styles/screen-16x10.css">
 </head>
+
+<style type="text/css">
+  #less_theory
+</style>
 <body class="shower list">
 	<header class="caption">
-		<h1>Testing approaches in Elixir</h1>
-		<p>Alex Rozumii</p>
-	</header>
+    <h1>Testing approaches in Elixir</h1>
+    <p>Oleksandr Rozumii, Toptal</p>
+  </header>
 
-	<section class="slide" id="cover">
-		<h2>Testing approaches in Elixir</h2>
-		<p>Brought to you by <a href="http://github.com/brain-geek">Alex Rozumii</a></p>
-		<img src="pictures/cover.jpg" alt="" class="cover">
-	</section>
+  <section class="slide">
+    <h2>Testing approaches in Elixir</h2>
+    <div style="text-align : right;">
+      Oleksandr Rozumii<br>
+      github.com/brain-geek<br>
+      Kyiv Elixir meetup 2, 2016
+    </div>
+  </section>
 
+  <section class="slide">
+    <h2>Who am I?</h2>
+    <ol>
+      <li>Doing some projects with Elixir for almost a year now</li>
+      <li>Kyiv Elixir meetup organizer :)</li>
+      <li>Elixir School contributor/translator</li>
+      <li>Ruby (lead) developer for >5 years</li>
+    </ol>
+  </section>
+
+  <section class="slide">
+    <h2 class="shout">Who thinks that testing is important?</h2>
+  </section>
+
+  <section class="slide">
+    <h2 class="shout">Who runs tests?</h2>
+  </section>
+
+  <section class="slide">
+    <h2 class="shout">Who knows what does those tests cover?</h2>
+  </section>
+
+  <section class="slide">
+    <h2 class="shout" style="font-size: 100px">Who understands that even 9001% coverage does not mean you don't have bugs?</h2>
+  </section>
+
+  <section class="slide">
+    <h2>What is testing?</h2>
+
+    <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam, eaque ipsa quae ab illo inventore veritatis et quasi architecto beatae vitae dicta sunt explicabo.</p>
+  </section>
+
+  <section class="slide">
+    <h2>What is testing?</h2>
+
+    <p>Software testing is an investigation conducted to provide stakeholders with information about the quality of the product or service under test.</p>
+  </section>
+
+  <section class="slide">
+    <h2>What is testing automation?</h2>
+
+    <p>Test automation is the use of special software to control the execution of tests and the comparison of actual outcomes with predicted outcomes.</p>
+  </section>
+
+  <section class="slide">
+    <h2>What is testing from the practical approach?</h2>
+    <p class="next">It's about checking that things work when needed…</p>
+    <p class="next">…and that they do not work when it should not!</p>
+
+    <p class="next">That's also named 'positive' and 'negative' testing.</p>
+  </section>
+
+  <section class="slide">
+    <h2>Testing levels</h2>
+
+    <ol>
+      <li>Unit</li>
+      <li>Integration</li>
+      <li>System</li>
+    </ol>
+  </section>
+    
+  <section class="slide" id="less_theory">
+    <h2>Less theory!</h2>
+
+    <img src="pictures/lecture.gif" class="cover"/>
+  </section>
+
+  <section class="slide">
+    <h2>Let's test a model</h2>
+
+    <pre>
+      <code>defmodule Example.MatchSubscriptionTest do</code>
+      <code>  @valid_attrs %{user_id: 42, msg_id: 4323, disabled: false}</code>
+      <code>  test "changeset with valid attributes" do</code>
+      <code>    changeset = MatchSubscription.changeset(</code>
+      <code>%MatchSubscription{}, @valid_attrs)</code>
+      <code>    assert changeset.valid?</code>
+      <code>  end</code>
+      <code>end</code>
+    </pre>
+  </section>
+
+  <section class="slide">
+    <h2>Let's test a model</h2>
+
+    <pre>
+      <code>defmodule Example.EventSpec do</code>
+      <code>  let :changeset, do: Event.changeset(%Event{}, attrs)</code>
+      <code>  subject do: changeset.valid?</code>
+      <code>  context "changeset with valid attributes" do</code>
+      <code>    let :attrs, do: %{"user_id" => 42, "msg_id" => 4323, </code>
+      <code>"disabled" => false}</code>
+      <code>    it "is valid" do</code>
+      <code>      is_expected.to be_truthy</code>
+      <code>    end</code>
+      <code>  end</code>
+      <code>end</code>
+    </pre>
+  </section>
+
+  <section class="slide">
+    <img src="pictures/dev-qa.png" class="cover"/>
+  </section>
+
+  <section class="slide">
+    <h2 class="shout">ExUnit</h2>
+  </section>
+
+  <section class="slide">
+    <pre>
+      <code>defmodule ExampleTest do</code>
+      <code>  use ExUnit.Case</code>
+      <code>  doctest Example</code>
+      <code>  test "the truth" do</code>
+      <code>    assert 1 + 1 == 2</code>
+      <code>  end</code>
+      <code>end</code>
+    </pre>
+  </section>
+
+  <section class="slide">
+    <h2>Async</h2>
+
+    <pre>
+      <code>defmodule AssertionTest do</code>
+      <code>  use ExUnit.Case, async: true</code>
+      <code>  test "the truth" do</code>
+      <code>    assert true</code>
+      <code>  end</code>
+      <code>end</code>
+    </pre>
+  </section>
+
+  <section class="slide">
+    <h2>Callbacks</h2>
+
+    <pre>
+      <code>setup_all do</code>
+      <code>  IO.puts "Starting AssertionTest"</code>
+      <code>  :ok</code>
+      <code>end</code>
+    </pre>
+  </section>
+
+  <section class="slide">
+    <h2>Callbacks</h2>
+
+    <pre>
+      <code>setup do</code>
+      <code>  IO.puts "This is a setup callback"</code>
+      <code>  on_exit fn -></code>
+      <code>  IO.puts "This is invoked once the test is done"</code>
+      <code>  end</code>
+      <code>  [hello: "world"]</code>
+      <code>end</code>
+    </pre>
+  </section>
+
+  <section class="slide">
+    <h2>Assert(s)</h2>
+
+    <pre><code>assert false, "it will never be true"</code></pre>
+
+    <pre><code>refute true, "This will obviously fail"</code></pre>
+
+    <pre><code>assert_in_delta 1.1, 1.5, 0.2</code></pre>
+
+    <pre><code>flunk "This should raise an error"</code></pre>
+  </section>
+
+  <section class="slide">
+    <h2>ExUnit: Pros</h2>
+
+    <ol>
+      <li>Simple</li>
+      <li>Ships with language</li>
+    </ol>
+  </section>
+
+  <section class="slide">
+    <h2>ExUnit: Cons</h2>
+
+    <ol>
+      <li>It tends to grow</li>
+      <li>Lots of copy-paste (not really)</li>
+      <li>No mocks</li>
+    </ol>
+  </section>
+
+  <section class="slide">
+    <h2 class="shout">ESpec</h2>
+  </section>
+
+  <section class="slide">
+    <pre>
+      <code>defmodule SomeSpec do</code>
+      <code>  use ESpec</code>
+      <code>  context "Some context" do</code>
+      <code>    it do: expect "abc" |> to(match ~r/b/)</code>
+      <code>  end</code>
+      <code>end</code>
+    </pre>
+  </section>
+
+  <section class="slide">
+    <h2>Let/Subject/Shared data</h2>
+
+    <pre>
+      <code>defmodule SomeSpec do</code>
+      <code>  use ESpec</code>
+      <code>  before do: {:shared, a: 1}</code>
+      <code>  let! :a, do: shared.a</code>
+      <code>  let :b, do: shared.a + 1</code>
+      <code>  it do: expect a |> to(eq 1)</code>
+      <code>  it do: expect b |> to(eq 2)</code>
+      <code>end</code>
+    </pre>
+  </section>
+
+  <section class="slide">
+    <h2>Callbacks</h2>
+
+    <pre><code>before do: LiveMatchesStore.set_live_games_info prev_state</code></pre>
+    <pre><code>config.finally fn(shared) -> IO.puts shared.answer  end</code></pre>
+  </section>
+
+  <section class="slide">
+    <h2>Expectation syntax</h2>
+
+    <p>RSpec syntax with expect helper: <b>expect(smth1).to eq(smth2)</b> or <b>is_expected.to eq(smth)</b> when subject is defined;</p>
+    <p>expect syntax with pipe operator expect <b>smth1 |> to(eq smth2)</b> or <b>is_expected |> to(eq smth)</b> when subject is defined;</p>
+    <p>should syntax: <b>smth1 |> should(eq smth2)</b> or <b>should eq smth</b> when subject is defined.</p>
+
+    <p class="note next">Yeah, it's copied from README. ;)</p>
+  </section>
+
+  <section class="slide">
+    <h2>Matchers</h2>
+
+    <pre><code>expect collection |> to(be_empty)</code></pre>
+
+    <pre><code>expect list |> to(have_first value)</code></pre>
+
+    <pre><code>expect string |> to(have_first value)</code></pre>
+
+    <pre><code>expect map |> to(have_key value)</code></pre>
+
+    <pre><code>expect function |> to(throw_term)</code></pre>
+  </section>
+
+  <section class="slide">
+    <h2>Mocks</h2>
+
+    <pre>
+      <code>defmodule SomeSpec do</code>
+      <code>  use ESpec</code>
+      <code>  before do: allow SomeModule |> to(accept :func)</code>
+      <code>  it do: expect SomeModule.func |> to(be_nil)</code>
+      <code>  it do: expect SomeModule.func(42) |> to(be_nil)</code>
+      <code>end</code>
+    </pre>
+  </section>
+
+  <section class="slide">
+    <h2>ESpec: Pros</h2>
+
+    <ol>
+      <li>Has a lot of features</li>
+      <li>Can be used to have complex nested tests</li>
+      <li>You can <s>annoy</s> ask the author easily</li>
+    </ol>
+  </section>
+
+  <section class="slide">
+    <h2>ESpec: Cons</h2>
+
+    <ol>
+      <li>Limited amount of users</li>
+      <li>Lot of features</li>
+    </ol>
+  </section>
+
+  <section class="slide">
+    <h2 class="shout">Elixir stuff</h2>
+  </section>
+
+  <section class="slide">
+    <h2>Faker</h2>
+
+    <ol>
+      <li>Faker::Name.name #=> "Tyshawn Johns Sr."</li>
+      <li>Faker::Avatar.image #=> "https://robohash.org/sitsequiquia.png?size=300x300"</li>
+      <li>Faker::Number.number(10) #=> "1968353479"</li>
+      <li>Faker::Commerce.department #=> "Grocery, Health &amp; Beauty"</li>
+    </ol>
+  </section>
+
+  <section class="slide">
+    <h2>Factory</h2>
+
+    <pre>
+      <code>defmodule Factory do</code>
+      <code>  def create(:company) do</code>
+      <code>    ...</code>
+      <code>  end</code>
+
+      <code>  def create(:city) do</code>
+      <code>    ...</code>
+      <code>  end</code>
+      <code>end</code>
+    </pre>
+  </section>
+
+  <section class="slide">
+    <h2 class="shout">Macroses</h2>
+  </section>
+
+  <section class="slide">
+    <h2 class="shout">Thank you!<br>
+      Questions?</h2>
+  </section>
 
 	<p class="badge">
 		<a href="https://github.com/shower/shower">Fork me on GitHub</a>
