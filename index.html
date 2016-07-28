@@ -215,7 +215,7 @@
   <section class="slide">
     <img src="pictures/dev-qa.png" class="cover"/>
   </section>
-  
+
   <section class="slide">
     <h2 class="shout">ESpec</h2>
   </section>
@@ -243,6 +243,18 @@
       <code>  it do: expect a |> to(eq 1)</code>
       <code>  it do: expect b |> to(eq 2)</code>
       <code>end</code>
+    </pre>
+  </section>
+
+  <section class="slide">
+    <h2>Contexts</h2>
+
+    <pre>
+      <code>describe "#prepare_event_text" do</code>
+      <code>  subject do: described_module.prepare_event_text(event)</code>
+
+      <code>  context "red team won" do</code>
+      <code>    context "within 5 minutes from start"</code>
     </pre>
   </section>
 
